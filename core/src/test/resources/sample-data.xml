@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<!-- Product data -->
+    <table name="product">
+    	<column>id</column>
+    	<column>name</column>
+    	<column>description</column>
+    	<column>create_date</column>
+    	<column>last_update_date</column>    	
+    	<row>
+    		<value description="id">1</value>
+    		<value description="name">Google</value>
+    		<value description="description">Google Products</value>
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>    		
+    	</row>
+    	<row>
+    		<value description="id">2</value>
+    		<value description="name">Apple</value>
+    		<value description="description">Apple Products</value>
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>    		
+    	</row>
+    	<row>
+    		<value description="id">3</value>
+    		<value description="name">Microsoft</value>
+    		<value description="description">Microsoft products</value>
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>    		
+    	</row>    	    	
+    </table>    
+    
+    <!-- Role data -->
+    <table name="role">
+    	<column>id</column>
+    	<column>name</column>
+    	<column>description</column>
+    	<column>create_date</column>
+    	<column>last_update_date</column>
+    	<row>
+    		<value description="id">1</value>
+    		<value description="name">Admin</value>
+    		<value description="description">Admin</value>
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>
+    	</row>
+    	<row>
+    		<value description="id">2</value>
+    		<value description="name">User</value>
+    		<value description="description">User</value>
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>    		
+    	</row>
+    	<row>
+    		<value description="id">3</value>
+    		<value description="name">Guest</value>
+    		<value description="description">Guest</value>
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>    		
+    	</row>    	    	
+    </table>
+       
+    <!-- User data -->    
+    <table name="user">
+        <column>id</column>
+        <column>username</column>
+        <column>password</column>
+        <column>first_name</column>
+        <column>last_name</column>
+        <column>email</column>
+        <column>phone_number</column>
+        <column>is_enabled</column>
+        <column>is_locked_out</column>
+        <column>last_login_date</column>
+        <column>create_date</column>
+        <column>last_update_date</column>
+        <row>
+            <value description="id">1</value>
+            <value description="username">admin</value>
+            <!-- Orignial value of password: 123456 -->
+            <value description="password">260acbffd3c30786febc29d7dd71a9880a811e77</value>
+            <value description="first_name">admin-first-name</value>
+            <value description="last_name">admin-last-name</value>
+            <value description="email">admin@akqa.com</value>
+            <value description="phone_number">12345678</value>
+            <value description="is_enabled">1</value>
+            <value description="is_locked_out">0</value>
+			<value description="last_login_date">2011-08-27</value>            
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>    		            
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="username">user</value>
+            <value description="password">9dd1a74fc2817a2dfcb6b6c08dd3754225b6f84c</value>
+            <value description="first_name">user-first-name</value>
+            <value description="last_name">user-last-name</value>
+            <value description="email">user@akqa.com</value>
+            <value description="phone_number">12345678</value>
+            <value description="is_enabled">1</value>
+            <value description="is_locked_out">0</value>
+			<value description="last_login_date">2011-08-27</value>            
+    		<value description="create_date">2011-08-27</value>
+    		<value description="last_update_date">2011-08-27</value>
+        </row>
+    </table>    
+    
+    <!-- Relationship/Join table for User and Role  -->
+    <table name="user_role_rel">
+        <column>user_id</column>
+        <column>role_id</column>
+        <row>
+            <value description="user_id">1</value>
+            <value description="role_id">1</value>
+        </row>
+        <row>
+            <value description="user_id">2</value>
+            <value description="role_id">2</value>
+        </row>
+    </table>    
+    
+</dataset>

@@ -1,0 +1,1 @@
+    <div class='disclaimer'>Site disclaimer. This is an example.</div>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+		
+	<!-- Change the role name prefix (default is ROLE_), use accessDecisionManager and uncomment these if use-expressions not true -->	
+	<!-- 
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+		<beans:property name="rolePrefix" value="" />
+	</beans:bean>
+	
+	<beans:bean id="authenticatedVoter"
+		class="org.springframework.security.access.vote.AuthenticatedVoter">
+	</beans:bean>	
+
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:ref bean="roleVoter" />
+				<beans:ref bean="authenticatedVoter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	-->
+ 
+	<!-- http auto-config="false" access-decision-manager-ref="accessDecisionManager"-->
+	<http auto-config="false" use-expressions="true">
+				
+		<anonymous username="guest" granted-authority="Guest"/>
+		
+		<form-login login-page="/user/login" 					
+					authentication-failure-url="/user/login?error=true" 
+					default-target-url="/user/profile"/>
+		
+		<logout logout-success-url="/user/login" logout-url="/user/logout" />
+		
+		<access-denied-handler error-page="/error/accessDenied"/>
+		
+		<remember-me/>
+		
+		<intercept-url pattern="/weather*" access="hasAnyRole('Admin','User')" />
+		<intercept-url pattern="/user/login" access="permitAll" />
+		<intercept-url pattern="/user/signup" access="permitAll" />
+		<intercept-url pattern="/user/*" access="hasAnyRole('Admin','User')" />
+		<intercept-url pattern="/admin*" access="hasRole('Admin')" />
+			
+	</http>
+	
+	<!-- Authentication Manager -->
+	<authentication-manager alias="authenticationManager">
+	
+		<!-- Use custom user service -->
+		<authentication-provider user-service-ref="userService">
+			<password-encoder ref="passwordEncoder">
+				<salt-source ref="saltSource"/>			
+			</password-encoder>
+		</authentication-provider>	
+	
+	</authentication-manager>	
+			
+</beans:beans>

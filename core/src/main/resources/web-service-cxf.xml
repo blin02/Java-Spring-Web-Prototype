@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" 
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<!-- not needed in 2.4 
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	-->
+
+	<!-- endpoints for soap web services to be exposed -->
+	<jaxws:endpoint id="weather" implementor="#weatherService" address="/weather" />
+	<jaxws:endpoint id="product" implementor="#productService" address="/product" />
+		
+	<!-- RESTful web service -->
+    <jaxrs:server address="/rest">        
+        <jaxrs:serviceBeans>
+			<ref bean="productService"/> 
+			<ref bean="weatherService"/>
+        </jaxrs:serviceBeans>
+                
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+            <entry key="xml" value="application/xml"/>
+            <entry key="feed" value="application/atom+xml"/>
+        </jaxrs:extensionMappings>
+        
+        <!-- 
+        <jaxrs:dataBinding>
+        	<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />                
+        </jaxrs:dataBinding>
+        -->
+    </jaxrs:server>		
+		
+</beans>

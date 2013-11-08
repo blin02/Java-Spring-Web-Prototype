@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<parent>
+		<groupId>com.mycompany</groupId>
+		<version>1.0.0-BUILD-SNAPSHOT</version>
+		<artifactId>myapps</artifactId>	
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>core</artifactId>
+	<packaging>jar</packaging>
+	<name>core</name>	
+	<description>core</description>
+		
+	<properties>	
+		<!-- JDBC -->
+		<jdbc.groupId>org.hsqldb</jdbc.groupId>
+		<jdbc.artifactId>hsqldb</jdbc.artifactId>
+		<jdbc.version>2.2.4</jdbc.version>	
+												 				
+		<!-- Hibernate Dialect -->
+		<hibernate.version>3.6.1.Final</hibernate.version>
+		<hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
+		
+		<!-- This is for MySQL -->
+		<!-- 
+		<jdbc.groupId>mysql</jdbc.groupId>
+		<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+		<jdbc.version>5.1.14</jdbc.version>
+		<hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+		-->
+
+		<!-- cxf version -->
+		<cxf.version>2.4.0</cxf.version>		
+	</properties>
+	
+	<profiles>
+		<profile>
+			<id>strict</id>
+			<properties>
+				<maven.test.failure.ignore>false</maven.test.failure.ignore>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>codegen</id>
+			<build>
+				<plugins>				
+					<!-- cxf codegen plugin (generate java artifacts from WSDL) -->
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-codegen-plugin</artifactId>
+						<version>${cxf.version}</version>
+						<executions>
+							<execution>
+								<id>generate-sources</id>
+								<phase>generate-sources</phase>
+								<configuration>
+									<!-- sourceRoot>src/main/java</sourceRoot -->
+									<wsdlOptions>
+										<wsdlOption>
+											<!-- wsdl>src/main/wsdl/weather.wsdl</wsdl-->
+											<wsdl>http://wsf.cdyne.com/WeatherWS/Weather.asmx?wsdl</wsdl>
+										</wsdlOption>
+									</wsdlOptions>
+								</configuration>
+								<goals>
+									<goal>wsdl2java</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>		
+	</profiles>
+	
+	<dependencies>
+
+		<!-- Dozer (auto class mapper) -->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>5.3.2</version>
+		</dependency>
+															
+		<!-- Hibernate libraries -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		    <version>1.3.156</version>
+		</dependency>
+
+		<!-- mysql jdbc driver -->		
+		<dependency>
+			<groupId>${jdbc.groupId}</groupId>
+			<artifactId>${jdbc.artifactId}</artifactId>
+			<version>${jdbc.version}</version>
+		</dependency>
+
+		<!-- CXF (create web service) -->		
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		
+		<!-- CXF support for JAX-RS (create RESTful service) -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+						
+	</dependencies>
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>properties-maven-plugin</artifactId>
+										<versionRange>[1.0-alpha-1,)</versionRange>
+										<goals>
+											<goal>read-project-properties</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>hibernate3-maven-plugin</artifactId>
+										<versionRange>[2.2,)</versionRange>
+										<goals>
+											<goal>hbm2ddl</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>dbunit-maven-plugin</artifactId>
+										<versionRange>[1.0-beta-3,)</versionRange>
+										<goals>
+											<goal>operation</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+				
+		<plugins>
+		
+			<!-- Read properties from external files -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-1</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>${basedir}/config/${environment}/environment.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>						
+				
+			<!-- hibernate maven plugin (integration with Hibernate) -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>annotationconfiguration</implementation>	
+						</component>
+					</components>
+					<componentProperties>
+						<drop>true</drop>
+						<jdk5>true</jdk5>
+						<propertyfile>target/test-classes/jdbc.properties</propertyfile>
+						<!-- configurationfile>/src/main/resources/hibernate.cfg.xml</configurationfile-->						
+						<skip>${skipTests}</skip>
+					</componentProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>${jdbc.groupId}</groupId>
+						<artifactId>${jdbc.artifactId}</artifactId>
+						<version>${jdbc.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>		
+		
+			<!-- DbUnit (JUnit extension, export/import database data to/from xml datasets) -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>dbunit-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<configuration>
+					<driver>${database.driverClassName}</driver>
+					<username>${database.username}</username>
+					<password>${database.password}</password>
+					<url>${database.url}</url>					
+				</configuration>
+				<executions>
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>operation</goal>
+						</goals>
+						<configuration>
+							<type>CLEAN_INSERT</type>
+							<src>src/test/resources/sample-data.xml</src>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>${jdbc.groupId}</groupId>
+						<artifactId>${jdbc.artifactId}</artifactId>
+						<version>${jdbc.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>		
+		
+		</plugins>		
+									
+	</build>
+	
+</project>

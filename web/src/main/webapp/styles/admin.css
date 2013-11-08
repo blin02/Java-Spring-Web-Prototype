@@ -1,0 +1,43 @@
+@CHARSET "ISO-8859-1";
+
+/* Some CSS */
+body {
+	font-family: arial, sans-serif;
+	background-color: #ccffcc;
+}
+
+h1,h2,h3,h4 {
+	text-align: center;
+	background-color: #ffffcc;
+	border-top: 1px solid #66ff66;
+}
+
+.mainBody {
+	padding: 10px;
+	border: 1px solid #555555;
+}
+
+.disclaimer {
+	text-align: center;
+	border-top: 1px solid #cccccc;
+	margin-top: 40px;
+	color: #666666;
+	font-size: smaller;
+}
+
+table.mytable {
+	border-collapse: collapse;
+	border: 1px solid #FF0000;
+}
+
+table.mytable th {
+	border: 1px solid #FF0000;
+}
+
+table.mytable td {
+	border: 1px solid #FF0000;
+}
+
+.form_error {
+	color: #ff0000;
+}

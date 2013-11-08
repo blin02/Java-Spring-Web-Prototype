@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		
+	<parent>
+		<groupId>com.mycompany</groupId>
+		<version>1.0.0-BUILD-SNAPSHOT</version>
+		<artifactId>myapps</artifactId>	
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>web</artifactId>
+	<name>web</name>
+	<packaging>war</packaging>
+		
+	<properties>
+		<org.springframework.roo-version>1.0.2.RELEASE</org.springframework.roo-version>
+		<ehcache.web.version>2.0.3</ehcache.web.version>
+		<displaytag.version>1.2</displaytag.version>
+		<sitemesh.version>3.0-alpha-2</sitemesh.version>
+		<springmodules.version>0.8</springmodules.version>		
+	</properties>
+	
+	<dependencies>
+		
+		<!-- Core Module -->
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>core</artifactId>
+			<version>${project.parent.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>			
+		</dependency>	
+		
+		<!-- Spring mvc library -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+
+		<!-- Spring security tag library -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>		
+						
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+				
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		
+		<!-- Display Tag Library -->
+		<dependency>
+			<groupId>displaytag</groupId>
+			<artifactId>displaytag</artifactId>
+			<version>${displaytag.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jcl104-over-slf4j</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+				
+		<!-- Sitemesh (a web-page layout and decoration framework) -->
+		<dependency>
+		    <groupId>org.sitemesh</groupId>
+		    <artifactId>sitemesh</artifactId>
+			<version>${sitemesh.version}</version>
+		</dependency>
+		
+		<!-- Spring Bean Validation Framework (annotation-based) -->
+		<dependency>
+			<groupId>org.springmodules</groupId>
+			<artifactId>spring-modules-validation</artifactId>
+			<version>${springmodules.version}</version>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>org.springframework</groupId>
+		            <artifactId>spring</artifactId>
+		        </exclusion>
+		        <exclusion>
+		            <groupId>org.springframework</groupId>
+		            <artifactId>spring-mock</artifactId>
+		        </exclusion>
+		    </exclusions>			
+		</dependency>		
+	</dependencies>
+		
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>properties-maven-plugin</artifactId>
+										<versionRange>[1.0-alpha-1,)</versionRange>
+										<goals>
+											<goal>read-project-properties</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	
+		<plugins>
+			
+			<!-- Read properties from external files -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-1</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>${basedir}/config/${environment}/environment.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>						
+						
+			<!-- Maven war plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<warName>${project.artifactId}</warName>
+				</configuration>
+			</plugin>
+			
+			<!-- Maven dependency plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install</id>
+						<phase>install</phase>
+						<goals>
+							<goal>sources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+									
+			<!-- Tomcat -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.0-beta-1</version>
+			</plugin>
+									
+		</plugins>
+	</build>
+</project>

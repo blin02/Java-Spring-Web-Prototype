@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+	<!-- Map decorators to path patterns. -->
+	<mapping path="*/admin/*" decorator="/WEB-INF/templates/admin.jsp"/>
+
+	<!-- Map default decorator. This shall be applied to all paths if no other paths match. -->
+	<mapping path="/*" decorator="/WEB-INF/templates/default.jsp"/>
+</sitemesh>
