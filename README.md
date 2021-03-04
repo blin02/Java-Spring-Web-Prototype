@@ -129,13 +129,13 @@ A Prototype of Java Web Application Uses Spring and Spring MVC Framework
 - Comments/Documents
 
 - Maven Plug-ins
-	-> Maven compiler plugin
-	-> Maven resource plugin
-	-> Hibernate Maven plugin (use to create database schema)
-	-> Dbunit plugin (use to import test/predefined data from dataset)
-	-> Document: javadoc
-	-> Unit test: Surefire for unit test, Failsafe for integration test (JUnit is the provider) 
-	-> CXF
-	-> Properties plugin (properties-maven-plugin), read properties from external files.
+	- - Maven compiler plugin
+	- - Maven resource plugin
+	- - Hibernate Maven plugin (use to create database schema)
+	- - Dbunit plugin (use to import test/predefined data from dataset)
+	- - Document: javadoc
+	- - Unit test: Surefire for unit test, Failsafe for integration test (JUnit is the provider) 
+	- - CXF
+	- - Properties plugin (properties-maven-plugin), read properties from external files.
 
 - Maven Version 3.0 
