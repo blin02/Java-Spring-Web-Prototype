@@ -35,7 +35,7 @@
 		-->
 
 		<!-- cxf version -->
-		<cxf.version>2.4.0</cxf.version>		
+		<cxf.version>2.6.11</cxf.version>		
 	</properties>
 	
 	<profiles>
